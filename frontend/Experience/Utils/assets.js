@@ -23,6 +23,11 @@ export default [
                     path: "/models/asian_female_animated.glb",
                 },
                 {
+                    name: "admin",
+                    type: "glbModel",
+                    path: "/models/admin.glb",
+                },
+                {
                     name: "bars",
                     type: "glbModel",
                     path: "/models/bars.glb",
