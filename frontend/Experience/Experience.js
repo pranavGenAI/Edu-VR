@@ -20,12 +20,10 @@ export default class Experience {
         }
 
         Experience.instance = this;
-
         this.canvas = canvas;
         this.socket = socket;
         this.sizes = new Sizes();
         this.time = new Time();
-
         this.setScene();
         this.setCamera();
         this.setRenderer();
@@ -61,7 +59,8 @@ export default class Experience {
     }
 
     setWorld() {
-        this.world = new World();
+        // Pass the scene to the World instance
+        this.world = new World(this.scene);
     }
 
     onResize() {
