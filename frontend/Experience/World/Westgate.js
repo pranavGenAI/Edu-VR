@@ -30,12 +30,28 @@ export default class Westgate {
         this.glass = this.resources.items.glass.scene;
         this.screen = this.resources.items.screen.scene;
 
+        // Check if the admin model is loaded and accessed correctly
+        this.admin = this.resources.items.admin
+            ? this.resources.items.admin.scene
+            : null;
+        console.log("Admin model:", this.admin);
+
+        if (this.admin) {
+            console.log("Adding admin model to the scene");
+            this.scene.add(this.admin);
+            // Set position for the admin model
+            this.admin.position.set(0, 7.7, -8);
+
+            // Add animation to admin
+            this.setupAdminAnimation();
+        } else {
+            console.log("Admin model not found");
+        }
+
         this.screen.children[0].material = new THREE.MeshBasicMaterial({
             map: this.resources.items.video,
         });
-
         this.screen.children[0].material.flipY = false;
-
         this.collider = this.resources.items.collider.scene;
         this.octree.fromGraphNode(this.collider);
 
@@ -46,12 +62,6 @@ export default class Westgate {
             child.material.ior = 1.5;
             child.material.transmission = 1;
             child.material.opacity = 1;
-
-            // child.material = new THREE.MeshBasicMaterial({
-            //     color: 0x949baf,
-            //     transparent: true,
-            //     opacity: 0.4,
-            // });
         });
 
         this.box.children.forEach((child) => {
@@ -177,8 +187,6 @@ export default class Westgate {
 
         this.scene.add(this.glass);
         this.scene.add(this.screen);
-
-        this.scene.add(this.bars);
         this.scene.add(this.brick);
         this.scene.add(this.buildings);
         this.scene.add(this.easter);
@@ -192,5 +200,41 @@ export default class Westgate {
         this.scene.add(this.box);
         this.scene.add(this.tables);
         this.scene.add(this.thirdfloor);
+        this.scene.add(this.bars);
+    }
+
+    setupAdminAnimation() {
+        if (this.admin) {
+            this.animation = {};
+            this.animation.mixer = new THREE.AnimationMixer(this.admin);
+            this.animation.actions = {};
+
+            // Assuming the admin model has animations at the following indices
+            const animations = this.resources.items.admin.animations;
+
+            if (animations && animations.length) {
+                this.animation.actions.idle = this.animation.mixer.clipAction(
+                    animations.find((clip) => clip.name === "Idle"),
+                );
+                this.animation.actions.current = this.animation.actions.idle;
+
+                this.animation.actions.idle.play();
+                console.log("Idle animation started");
+
+                this.animation.update = (delta) => {
+                    this.animation.mixer.update(delta);
+                };
+            } else {
+                console.log("No animations found in admin model");
+            }
+        } else {
+            console.log("Admin model not found");
+        }
+    }
+
+    update() {
+        if (this.mixer) {
+            this.mixer.update(this.experience.time.delta * 0.001); // Update mixer with elapsed time
+        }
     }
 }
