@@ -8,8 +8,7 @@ export default class Nametag {
         this.scene = this.experience.scene;
         this.nametag = "";
     }
-
-    createNametag(size = 16, baseWidth = 150, name = "John Doe") {
+    createNametag(size = 16, baseWidth = 150, name = "Pranav Baviskar") {
         const borderSize = 2;
         const fontSize = 12;
         const ctx = document.createElement("canvas").getContext("2d");
@@ -60,11 +59,6 @@ export default class Nametag {
 
         return label;
 
-        // this.scene.add(label);
-
-        // return ctx.canvas;
-
-        // return this.nametag;
     }
 
     update() {}
