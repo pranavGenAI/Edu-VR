@@ -9,9 +9,7 @@ export default class Resources extends EventEmitter {
         this.items = {};
         this.assets = assets;
         this.location = "westgate";
-
         this.loaders = new Loaders().loaders;
-
         this.startLoading();
     }
 
@@ -45,13 +43,13 @@ export default class Resources extends EventEmitter {
                 this.video[asset.name].play();
 
                 this.videoTexture[asset.name] = new THREE.VideoTexture(
-                    this.video[asset.name]
+                    this.video[asset.name],
                 );
                 this.videoTexture[asset.name].flipY = false;
                 this.videoTexture[asset.name].minFilter = THREE.NearestFilter;
                 this.videoTexture[asset.name].magFilter = THREE.NearestFilter;
                 this.videoTexture[asset.name].generateMipmaps = false;
-                this.videoTexture[asset.name].ColorSpace = THREE.SRGBColorSpace; //changed
+                this.videoTexture[asset.name].colorSpace = THREE.SRGBColorSpace;
 
                 this.singleAssetLoaded(asset, this.videoTexture[asset.name]);
             }
