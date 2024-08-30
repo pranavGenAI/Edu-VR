@@ -28,6 +28,21 @@ export default [
                     path: "/models/admin.glb",
                 },
                 {
+                    name: "npc",
+                    type: "glbModel",
+                    path: "/models/npc.glb",
+                },
+                {
+                    name: "npc2",
+                    type: "glbModel",
+                    path: "/models/npc2.glb",
+                },
+                {
+                    name: "girl",
+                    type: "glbModel",
+                    path: "/models/girl.glb",
+                },
+                {
                     name: "bars",
                     type: "glbModel",
                     path: "/models/bars.glb",
@@ -106,6 +121,11 @@ export default [
                     name: "barsTexture",
                     type: "imageTexture",
                     path: "textures/baked/bars.jpg",
+                },
+                {
+                    name: "npcTexture",
+                    type: "imageTexture",
+                    path: "textures/baked/npc.jpg",
                 },
                 {
                     name: "brickTexture",
