@@ -112,7 +112,7 @@ export default class Preloader {
                         },
 
                         onComplete: () => {
-                            this.domElements.svgLogo.remove();
+                            // this.domElements.svgLogo.remove();
                             this.domElements.progressBarContainer.remove();
                             this.domElements.progressWrapper.remove();
                             this.domElements.preloaderTitle.remove();
