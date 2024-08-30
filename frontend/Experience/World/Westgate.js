@@ -1,13 +1,14 @@
 import Experience from "../Experience.js";
 import * as THREE from "three";
 
+
 export default class Westgate {
     constructor() {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
         this.octree = this.experience.world.octree;
-
+        this.mixer = null; // To handle animations
         this.setWorld();
     }
 
@@ -26,6 +27,7 @@ export default class Westgate {
         this.tables = this.resources.items.tables.scene;
         this.thirdfloor = this.resources.items.thirdfloor.scene;
         this.box = this.resources.items.box.scene;
+        this.bars = this.resources.items.bars.scene;
 
         this.glass = this.resources.items.glass.scene;
         this.screen = this.resources.items.screen.scene;
@@ -39,15 +41,86 @@ export default class Westgate {
         if (this.admin) {
             console.log("Adding admin model to the scene");
             this.scene.add(this.admin);
-            // Set position for the admin model
-            this.admin.position.set(0, 7.7, -8);
+            console.log("Admin model data:", this.resources.items.admin);
 
-            // Add animation to admin
-            this.setupAdminAnimation();
+            // Set position for the admin model
+            this.admin.position.set(15, 7.7, 1);
+            console.log("position", this.admin.position);
+            // Set rotation for the admin model (in radians)
+            this.admin.rotation.x = 18.95; // 45 degrees on the X-axis
+            this.admin.rotation.y = 10.14; // 90 degrees on the Y-axis
+            this.admin.rotation.z = 169.78; // 30 degrees on the Z-axis
+            console.log("Rotation", this.admin.rotation);
+            // Set up animations if available
+            if (this.resources.items.admin.animations) {
+                this.setupAnimations(this.resources.items.admin.animations);
+            }
+            // Create the nametag
+            this.createNametag();
         } else {
             console.log("Admin model not found");
         }
 
+        ///////////////////////////////
+        // Check if the npc model is loaded and accessed correctly
+        this.npc = this.resources.items.npc
+            ? this.resources.items.npc.scene
+            : null;
+        console.log("npc model:", this.npc);
+
+        if (this.npc) {
+            console.log("Adding npc model to the scene");
+            this.scene.add(this.npc);
+            console.log("npc model data:", this.resources.items.npc);
+
+            // Set position for the npc model
+            this.npc.position.set(22.4, 18, 5.5);
+            console.log("position", this.npc.position);
+            // Set rotation for the npc model (in radians)
+            this.npc.rotation.x = 18.95; // 45 degrees on the X-axis
+            this.npc.rotation.y = 10.14; // 90 degrees on the Y-axis
+            this.npc.rotation.z = 169.78; // 30 degrees on the Z-axis
+            console.log("Rotation", this.npc.rotation);
+            // Set up animations if available
+            if (this.resources.items.npc.animations) {
+                this.setupAnimations(this.resources.items.npc.animations);
+            }
+            // Create the nametag
+            this.createNametag();
+        } else {
+            console.log("npc model not found");
+        }
+
+        ///////////////////////////////
+
+
+        // Check if the girl model is loaded and accessed correctly
+        this.girl = this.resources.items.girl
+            ? this.resources.items.girl.scene
+            : null;
+        console.log("girl model:", this.girl);
+
+        if (this.girl) {
+            console.log("Adding girl model to the scene");
+            this.scene.add(this.girl);
+            console.log("girl model data:", this.resources.items.girl);
+
+            // Set position for the girl model
+            this.girl.position.set(23.5, 7.8, -1.1);
+            console.log("position", this.girl.position);
+            // Set rotation for the girl model (in radians)
+            this.girl.rotation.x = 18.95; // 45 degrees on the X-axis
+            this.girl.rotation.y = 10.5; // 90 degrees on the Y-axis
+            this.girl.rotation.z = 169.8; // 30 degrees on the Z-axis
+            console.log("Rotation", this.girl.rotation);
+            // Reduce the scale of the girl model
+            this.girl.scale.set(0.01, 0.01, 0.01); // Adjust the scale factor as needed
+            console.log("Scale", this.girl.scale);
+        } else {
+            console.log("girl model not found");
+        }
+
+        ////////////////////////
         this.screen.children[0].material = new THREE.MeshBasicMaterial({
             map: this.resources.items.video,
         });
@@ -203,38 +276,67 @@ export default class Westgate {
         this.scene.add(this.bars);
     }
 
-    setupAdminAnimation() {
-        if (this.admin) {
-            this.animation = {};
-            this.animation.mixer = new THREE.AnimationMixer(this.admin);
-            this.animation.actions = {};
+    setupAnimations(animations) {
+        // Create an AnimationMixer, which will control the animations
+        this.mixer = new THREE.AnimationMixer(this.admin);
 
-            // Assuming the admin model has animations at the following indices
-            const animations = this.resources.items.admin.animations;
+        // List all available animations
+        console.log("Available animations for Admin model:");
+        animations.forEach((clip) => {
+            console.log(clip.name);
+        });
 
-            if (animations && animations.length) {
-                this.animation.actions.idle = this.animation.mixer.clipAction(
-                    animations.find((clip) => clip.name === "Idle"),
-                );
-                this.animation.actions.current = this.animation.actions.idle;
-
-                this.animation.actions.idle.play();
-                console.log("Idle animation started");
-
-                this.animation.update = (delta) => {
-                    this.animation.mixer.update(delta);
-                };
-            } else {
-                console.log("No animations found in admin model");
-            }
+        // Look for the "Idle" animation and play it in a loop if found
+        const idleAnimation = animations.find(
+            (clip) => clip.name.toLowerCase() === "idle",
+        );
+        if (idleAnimation) {
+            const action = this.mixer.clipAction(idleAnimation);
+            console.log("Idle Animation Action:", action);
+            action.play();
+            action.setLoop(THREE.LoopRepeat); // Ensure it's set to loop
+            action.enabled = true; // Ensure the action is enabled
+            console.log("Playing Idle animation in loop.");
         } else {
-            console.log("Admin model not found");
+            console.log("Idle animation not found.");
+        }
+        animations.forEach((clip) => {
+            const action = this.mixer.clipAction(clip);
+            action.play();
+        });
+    }
+
+    // Call this in your main render loop to update animations
+    update(deltaTime) {
+        if (this.mixer) {
+            this.mixer.update(deltaTime);
         }
     }
 
-    update() {
-        if (this.mixer) {
-            this.mixer.update(this.experience.time.delta * 0.001); // Update mixer with elapsed time
-        }
+    createNametag() {
+        // Create canvas and draw text
+        const canvas = document.createElement("canvas");
+        canvas.width = 256;
+        canvas.height = 128;
+        const context = canvas.getContext("2d");
+        context.font = "28px Arial";
+        context.fillStyle = "white";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText("Admin Staff", canvas.width / 2, canvas.height / 2);
+
+        // Create texture and sprite
+        const texture = new THREE.CanvasTexture(canvas);
+        const material = new THREE.SpriteMaterial({ map: texture });
+        const sprite = new THREE.Sprite(material);
+
+        // Set sprite scale
+        sprite.scale.set(4.5, 2, 0.5); // Adjust size as needed
+        console.log(sprite.scale);
+        // Position sprite above admin model
+        sprite.position.set(15, 10, 1);
+        console.log(sprite.position);
+        // Add sprite to the scene
+        this.scene.add(sprite);
     }
 }
