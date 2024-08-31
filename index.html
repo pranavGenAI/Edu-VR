@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="icon" type="image/svg+xml" href="/media/favicon.ico" />
+        <meta name="author" content="Pranav Baviskar" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>IIM BG Metaverse</title>
+
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/media/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/media/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/media/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/media/site.webmanifest" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta name="theme-color" content="#ffffff" />
+        <style>
+            .logo-fade-out {
+                opacity: 0;
+                transition: opacity 2s ease-in-out;
+            }
+
+            /* Add other CSS styles as needed */
+        </style>
+    </head>
+    <body>
+        <!-- song -->
+        <audio
+            id="myAudio"
+            style="display: none"
+            src="/media/music.mp3"
+        ></audio>
+
+        <!-- Preloader -->
+        <div class="preloader">
+            <div class="preloader-wrapper">
+                <div class="progress-bar-container">
+                    <div class="progress-bar"></div>
+                </div>
+            </div>
+            <div class="progress-wrapper">
+                <div class="percent preloader-percentage1">0</div>
+                <div class="percent preloader-percentage2">0</div>
+                <div class="percent symbol">%</div>
+            </div>
+            <div class="progress-wrapper">
+                <h1 class="preloader-title fade-in-out">
+                    Your Metaverse experience is loading
+                </h1>
+            </div>
+            <div class="description">
+                IIM BG Metaverse Platform is not officially endorsed by Indian
+                Institute of Management, Bodh Gaya. It offers students an
+                immersive way to interact with other students and faculty
+                members in realistic environments. App is still in progress and
+                full of glitch!
+            </div>
+
+            <!-- Name Enter Screen -->
+            <div class="welcome-title">Welcome to IIM BG Metaverse !</div>
+            <div class="name-form">
+                <input
+                    type="text"
+                    placeholder="What should we call you?"
+                    id="name-input"
+                    required
+                />
+            </div>
+            <button id="name-input-button">Continue</button>
+
+            <!-- Ready Player Me Interaction -->
+            <div class="character-select-title">Choose your avatar</div>
+            <div class="avatar-img-wrapper">
+                <img
+                    src="/images/asian_male_head.png"
+                    alt=""
+                    class="avatar-img avatar-left"
+                />
+                <img
+                    src="/images/asian_female_head.png"
+                    alt=""
+                    class="avatar-img avatar-right"
+                />
+            </div>
+            <div class="customize-character-btn">
+                Controls: WASD to move | SHIFT to run | SPACE to jump | T to
+                chat with NPC | ENTER to chat | Click/Drag to pan | Middle Mouse
+                to zoom | o to dance | q to wave
+            </div>
+            <!-- <iframe
+            id="frame"
+            class="frame"
+            allow="camera *; microphone *; clipboard-write"
+        ></iframe> -->
+        </div>
+
+        <div class="original-creator hidden">Created by: Pranav Baviskar</div>
+
+        <!-- Mobile Controls -->
+        <div class="joystick-area"></div>
+        <div class="control-overlay hidden"></div>
+        <!-- <button class="mobile-chat-button">
+
+        </button> -->
+
+        <!-- Logo -->
+        <!-- <div class="logo-wrapper"></div> -->
+
+        <!-- Menu -->
+        <!-- <button class="menu-button">
+            <div class="menu-content">
+                <span class="menu-circle"></span>
+                <div class="menu-bar-wrapper">
+                    <span class="menu-bar"></span>
+                    <span class="menu-bar"></span>
+                    <span class="menu-bar"></span>
+                </div>
+            </div>
+        </button> -->
+
+        <!-- Other Ui -->
+
+        <!-- <button class="switch-camera-view"></button> -->
+
+        <!-- Chat Box -->
+        <div class="chat-box">
+            <div class="chat-container"></div>
+            <div class="form">
+                <label for="chat-message-input"></label>
+                <div class="message-input-wrapper hidden">
+                    <input type="text" id="chat-message-input" />
+                    <button id="chat-message-button">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="24"
+                            width="24"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M3.45 17.3V6.55q0-.575.488-.9.487-.325 1.037-.1l12.65 5.35q.65.3.65 1.025 0 .725-.65 1.025L4.975 18.3q-.55.225-1.037-.1-.488-.325-.488-.9Zm1.25-.25 12.1-5.15L4.7 6.75v3.925L9.9 11.9l-5.2 1.225Zm0-5.15V6.75v10.3Z"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experience -->
+        <div class="experience-wrapper">
+            <canvas class="experience-canvas"></canvas>
+        </div>
+
+        <script type="module" src="/index.js"></script>
+    </body>
+</html>
